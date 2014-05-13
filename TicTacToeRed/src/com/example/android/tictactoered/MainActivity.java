@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.tictactoe;
+package com.example.android.tictactoered;
 
 import android.app.Activity;
 import android.content.Intent;
