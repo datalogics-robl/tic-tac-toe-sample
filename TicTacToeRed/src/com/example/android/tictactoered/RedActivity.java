@@ -25,7 +25,7 @@ import android.view.View.OnClickListener;
 import com.example.android.tictactoe.library.GameActivity;
 import com.example.android.tictactoe.library.GameView.State;
 
-public class MainActivity extends Activity {
+public class RedActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
