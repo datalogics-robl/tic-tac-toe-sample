@@ -18,12 +18,16 @@ package com.example.android.tictactoe;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.example.android.tictactoe.library.GameActivity;
 import com.example.android.tictactoe.library.GameView.State;
+import com.example.android.tictactoe.library.ScoresProvider;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
@@ -45,6 +49,9 @@ public class MainActivity extends Activity {
                 startGame(false);
             }
         });
+
+        // Quick hack: dump all scores to the log
+        dumpScores();
     }
 
     private void startGame(boolean startWithHuman) {
@@ -52,5 +59,24 @@ public class MainActivity extends Activity {
         i.putExtra(GameActivity.EXTRA_START_PLAYER,
                 startWithHuman ? State.PLAYER1.getValue() : State.PLAYER2.getValue());
         startActivity(i);
+    }
+
+    // Dump all scores to the log
+    public void dumpScores() {
+    	String URL = "content://com.example.android.tictactoe.Scores";
+    	Uri scores = Uri.parse(URL);
+    	Cursor c = getContentResolver().query(scores, null, null, null, "name");
+    	String scoreLine;
+
+    	if (!c.moveToFirst()) {
+    		Log.d("MainActivity", "No scores present!!");
+    	}
+    	else {
+    		do {
+    			scoreLine = c.getString(c.getColumnIndex(ScoresProvider.NAME));
+    			scoreLine += ": " + c.getString(c.getColumnIndex(ScoresProvider.SCORE));
+    			Log.d("MainActivity", scoreLine);
+    		} while (c.moveToNext());
+    	}
     }
 }
