@@ -3,10 +3,17 @@ package com.example.android.tictactoe.library;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.net.Uri;
 
-public class Provider extends ContentProvider {
+public class ScoresProvider extends ContentProvider {
 
+	// Our datastore: a MatrixCursor that holds top scores
+	MatrixCursor mScores;
+	
+	// The columns in our scores table
+	String[] mColumns = {"id", "name", "score"};
+	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		// TODO Auto-generated method stub
@@ -27,15 +34,22 @@ public class Provider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		// TODO Auto-generated method stub
-		return false;
+		// Create a scores table using fixed data
+		mScores = new MatrixCursor(mColumns);
+		
+		// Here's a Q&D way to add two rows of data to the table
+		// Schema: id, name, score
+		mScores.newRow().add(1).add("Ralphie").add("2200");
+		mScores.newRow().add(2).add("Lester").add("1400");
+		return true;
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-		// TODO Auto-generated method stub
-		return null;
+		// We don't need the selection args, we can simply return
+		// the score table
+		return mScores;
 	}
 
 	@Override
