@@ -34,7 +34,8 @@
         <!-- This is defined in TicTacToeLib. Right now we need to manually
              copy it here. Eventually it should get merged automatically. -->
         <activity android:name="com.example.android.tictactoe.library.GameActivity" />
-
+        <provider android:name="com.example.android.tictactoe.library.ScoresProvider"
+            android:authorities="com.example.android.tictactoe.Scores" />
 
     </application>
 </manifest>
