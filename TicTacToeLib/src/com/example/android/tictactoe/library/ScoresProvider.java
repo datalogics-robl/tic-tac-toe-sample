@@ -8,11 +8,16 @@ import android.net.Uri;
 
 public class ScoresProvider extends ContentProvider {
 
+	// Field names
+	public static final String ID = "id";
+	public static final String NAME = "name";
+	public static final String SCORE = "score";
+
 	// Our datastore: a MatrixCursor that holds top scores
 	MatrixCursor mScores;
 	
 	// The columns in our scores table
-	String[] mColumns = {"id", "name", "score"};
+	String[] mColumns = {ID, NAME, SCORE};
 	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
