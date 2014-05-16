@@ -17,6 +17,7 @@
 package com.example.android.tictactoe;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -53,7 +54,8 @@ public class MainActivity extends Activity {
             }
         });
 
-        // Quick hack: dump all scores to the log
+        // Quick hack: insert score, then dump all scores to the log
+        addScore("Wayne Gretsky", "7200");
         dumpScores();
     }
 
@@ -80,5 +82,17 @@ public class MainActivity extends Activity {
     			Log.d("MainActivity", scoreLine);
     		} while (c.moveToNext());
     	}
+    }
+
+    // Insert a new score into the table
+    public void addScore(String name, String score) {
+    	Uri scores = Uri.parse(SCORES_AUTHORITY);
+
+    	ContentValues values = new ContentValues();
+    	values.put(ScoresProvider.NAME, name);
+    	values.put(ScoresProvider.SCORE, score);
+
+    	// Note: do not check returned Uri here
+    	getContentResolver().insert(scores, values);
     }
 }
