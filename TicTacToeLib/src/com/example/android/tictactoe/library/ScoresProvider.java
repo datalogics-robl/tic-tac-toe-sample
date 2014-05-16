@@ -33,7 +33,12 @@ public class ScoresProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
+		// Extract new values
+		String name = values.getAsString(NAME);
+		String score = values.getAsString(SCORE);
+
+		// Insert the new row
+		mScores.newRow().add(mScores.getCount()).add(name).add(score);
 		return null;
 	}
 
