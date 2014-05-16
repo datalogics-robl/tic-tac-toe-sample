@@ -30,6 +30,9 @@ import com.example.android.tictactoe.library.GameView.State;
 import com.example.android.tictactoe.library.ScoresProvider;
 
 public class MainActivity extends Activity {
+	// Our content authority
+	static final String SCORES_AUTHORITY = "content://com.example.android.tictactoe.Scores";
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,8 +66,7 @@ public class MainActivity extends Activity {
 
     // Dump all scores to the log
     public void dumpScores() {
-    	String URL = "content://com.example.android.tictactoe.Scores";
-    	Uri scores = Uri.parse(URL);
+    	Uri scores = Uri.parse(SCORES_AUTHORITY);
     	Cursor c = getContentResolver().query(scores, null, null, null, "name");
     	String scoreLine;
 
