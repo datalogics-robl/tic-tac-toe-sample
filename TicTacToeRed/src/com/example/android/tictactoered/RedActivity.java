@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.example.android.tictactoe.library.GameActivity;
 import com.example.android.tictactoe.library.ScoresProvider;
@@ -71,6 +72,7 @@ public class RedActivity extends Activity {
     	Uri scores = Uri.parse(SCORES_AUTHORITY);
     	Cursor c = getContentResolver().query(scores, null, null, null, "name");
     	String scoreLine;
+    	String allScores = "";
     	
     	if (!c.moveToFirst()) {
     		Log.d("RedActivity", "No scores present!!");
@@ -80,7 +82,11 @@ public class RedActivity extends Activity {
     			scoreLine = c.getString(c.getColumnIndex(ScoresProvider.NAME));
     			scoreLine += ": " + c.getString(c.getColumnIndex(ScoresProvider.SCORE));
     			Log.d("RedActivity", scoreLine);
+    			allScores += scoreLine + "\n";
     		} while (c.moveToNext());
+
+    		// Put all scores on screen
+    		Toast.makeText(this, allScores, Toast.LENGTH_LONG).show();
     	}
     }
 
