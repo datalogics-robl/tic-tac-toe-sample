@@ -17,6 +17,7 @@
 package com.example.android.tictactoered;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -30,6 +31,9 @@ import com.example.android.tictactoe.library.ScoresProvider;
 import com.example.android.tictactoe.library.GameView.State;
 
 public class RedActivity extends Activity {
+	// Our content authority
+	static final String SCORES_AUTHORITY = "content://com.example.android.tictactoe.RedScores";
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,8 @@ public class RedActivity extends Activity {
             }
         });
 
-        // Quick hack: dump all scores to the log
+        // Quick hack: insert score, then dump all scores to the log
+        addScore("Alex Ovechkin", "6800");
         dumpScores();
     }
 
@@ -63,8 +68,7 @@ public class RedActivity extends Activity {
 
     // Dump all scores to the log
     public void dumpScores() {
-    	String URL = "content://com.example.android.tictactoe.RedScores";
-    	Uri scores = Uri.parse(URL);
+    	Uri scores = Uri.parse(SCORES_AUTHORITY);
     	Cursor c = getContentResolver().query(scores, null, null, null, "name");
     	String scoreLine;
     	
@@ -78,5 +82,17 @@ public class RedActivity extends Activity {
     			Log.d("RedActivity", scoreLine);
     		} while (c.moveToNext());
     	}
+    }
+
+    // Insert a new score into the table
+    public void addScore(String name, String score) {
+    	Uri scores = Uri.parse(SCORES_AUTHORITY);
+
+    	ContentValues values = new ContentValues();
+    	values.put(ScoresProvider.NAME, name);
+    	values.put(ScoresProvider.SCORE, score);
+
+    	// Note: do not check returned Uri here
+    	getContentResolver().insert(scores, values);
     }
 }
